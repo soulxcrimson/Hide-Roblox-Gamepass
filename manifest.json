@@ -1,0 +1,17 @@
+{
+  "manifest_version": 3,
+  "name": "Hide Roblox Offsale Passes",
+  "version": "1.2.0",
+  "description": "Hide selected offsale game passes on the Roblox Creator Dashboard",
+  "permissions": ["activeTab", "scripting"],
+  "icons": {
+    "128": "logo.png"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://create.roblox.com/dashboard/creations/experiences/*/monetization/passes"],
+      "js": ["content.js"],
+      "css": ["styles.css"]
+    }
+  ]
+}

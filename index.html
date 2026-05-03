@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Hide Roblox Gamepass - Professional extension to hide unwanted offsale gamepasses from your Roblox Creator Dashboard">
+  <meta name="theme-color" content="#000000">
+  <title>Hide Roblox Gamepass — Premium Extension</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --red-primary: #e50914;
+      --red-light: #ff2a43;
+      --red-dark: #a00709;
+      --blue: #2563eb;
+      --blue-light: #60a5fa;
+      --yellow: #fbbf24;
+      --bg: #000000;
+      --surface-dark: rgba(255, 255, 255, 0.03);
+      --surface-lighter: rgba(255, 255, 255, 0.06);
+      --text-primary: #ffffff;
+      --text-secondary: #e5e5ea;
+      --text-muted: #a1a1a6;
+      --border-light: rgba(255, 255, 255, 0.08);
+      --border-lighter: rgba(255, 255, 255, 0.04);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      min-height: 100vh;
+      background: radial-gradient(circle at 50% 30%, rgba(229, 9, 20, 0.12) 0%, rgba(99, 102, 241, 0.06) 25%, rgba(0, 0, 0, 1) 60%),
+                  linear-gradient(180deg, #000000 0%, #0a0a0a 100%);
+      color: var(--text-primary);
+      font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      width: 800px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(229, 9, 20, 0.15) 0%, rgba(99, 102, 241, 0.08) 40%, transparent 70%);
+      transform: translate(-50%, -50%);
+      filter: blur(80px);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .container {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 620px;
+      padding: 40px 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 64px;
+      align-items: center;
+      text-align: center;
+    }
+
+    .header-section {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .title {
+      font-size: clamp(3rem, 8vw, 4.5rem);
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      line-height: 1.1;
+      background: linear-gradient(135deg, #ffffff 0%, #e5e5ea 50%, #b0b0b7 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-shadow: 0 2px 16px rgba(229, 9, 20, 0.1);
+    }
+
+    .subtitle {
+      font-size: 1.1rem;
+      color: var(--text-muted);
+      font-weight: 400;
+      letter-spacing: -0.01em;
+      line-height: 1.6;
+      max-width: 500px;
+      margin: 0 auto;
+    }
+
+    .cta-section {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      width: 100%;
+    }
+
+    .btn {
+      padding: 18px 28px;
+      border-radius: 12px;
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 1rem;
+      letter-spacing: -0.01em;
+      transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+      border: none;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      position: relative;
+      overflow: hidden;
+      font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      outline-offset: 3px;
+    }
+
+    .btn:focus-visible {
+      outline: 2px solid var(--red-primary);
+    }
+
+    .btn::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+      transform: translateX(-100%);
+      transition: transform 0.6s ease;
+    }
+
+    .btn:hover::before {
+      transform: translateX(100%);
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--red-primary) 0%, var(--red-light) 100%);
+      color: #ffffff;
+      box-shadow: 0 20px 60px rgba(229, 9, 20, 0.35),
+                  inset 0 1px 0 rgba(255, 255, 255, 0.2);
+      font-weight: 600;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 30px 80px rgba(229, 9, 20, 0.4),
+                  inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    }
+
+    .btn-primary:active {
+      transform: translateY(-1px);
+    }
+
+    .btn-secondary {
+      background: var(--surface-dark);
+      color: var(--text-secondary);
+      border: 1.5px solid var(--border-light);
+      backdrop-filter: blur(12px);
+      font-weight: 500;
+    }
+
+    .btn-secondary:hover {
+      background: var(--surface-lighter);
+      border-color: rgba(255, 255, 255, 0.16);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3),
+                  inset 0 1px 0 rgba(255, 255, 255, 0.1);
+      transform: translateY(-2px);
+    }
+
+    .btn-secondary:active {
+      transform: translateY(0);
+    }
+
+    .btn-blue {
+      background: linear-gradient(135deg, var(--blue) 0%, var(--blue-light) 100%);
+      color: #ffffff;
+      box-shadow: 0 20px 60px rgba(37, 99, 235, 0.25),
+                  inset 0 1px 0 rgba(255, 255, 255, 0.2);
+      font-weight: 600;
+    }
+
+    .btn-blue:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 30px 80px rgba(37, 99, 235, 0.3),
+                  inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    }
+
+    .btn-blue:active {
+      transform: translateY(-1px);
+    }
+
+    .btn-yellow {
+      background: linear-gradient(135deg, var(--yellow) 0%, #f59e0b 100%);
+      color: #000000;
+      box-shadow: 0 20px 60px rgba(251, 191, 36, 0.25),
+                  inset 0 1px 0 rgba(255, 255, 255, 0.3);
+      font-weight: 600;
+    }
+
+    .btn-yellow:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 30px 80px rgba(251, 191, 36, 0.3),
+                  inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    }
+
+    .btn-yellow:active {
+      transform: translateY(-1px);
+    }
+
+    .donate-wrapper {
+      position: relative;
+      width: 100%;
+    }
+
+    .wallet-dropdown {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--surface-dark);
+      border: 1.5px solid var(--border-light);
+      border-radius: 16px;
+      padding: 24px;
+      margin-top: 16px;
+      min-width: 360px;
+      z-index: 100;
+      backdrop-filter: blur(20px);
+      box-shadow: 0 20px 80px rgba(0, 0, 0, 0.5),
+                  inset 0 1px 0 rgba(255, 255, 255, 0.1);
+      animation: slideDownSmooth 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .wallet-dropdown.show {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    @keyframes slideDownSmooth {
+      from {
+        opacity: 0;
+        transform: translateX(-50%) translateY(-12px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+      }
+    }
+
+    .wallet-label {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      font-weight: 500;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      text-align: left;
+    }
+
+    .wallet-address-container {
+      background: rgba(0, 0, 0, 0.4);
+      border: 1px solid rgba(251, 191, 36, 0.15);
+      border-radius: 10px;
+      padding: 12px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .wallet-address {
+      font-family: "Menlo", "Monaco", "Courier New", monospace;
+      font-size: 0.85rem;
+      color: var(--yellow);
+      word-break: break-all;
+      flex: 1;
+      letter-spacing: 0.02em;
+    }
+
+    .copy-icon {
+      cursor: pointer;
+      color: var(--yellow);
+      opacity: 0.7;
+      transition: opacity 0.2s;
+      font-size: 1rem;
+    }
+
+    .copy-icon:hover {
+      opacity: 1;
+    }
+
+    .copy-btn {
+      background: linear-gradient(135deg, rgba(251, 191, 36, 0.15) 0%, rgba(251, 191, 36, 0.08) 100%);
+      color: var(--yellow);
+      border: 1px solid rgba(251, 191, 36, 0.25);
+      padding: 11px 16px;
+      font-size: 0.9rem;
+      cursor: pointer;
+      border-radius: 10px;
+      transition: all 0.28s ease;
+      width: 100%;
+      font-weight: 500;
+      font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    .copy-btn:hover {
+      background: linear-gradient(135deg, rgba(251, 191, 36, 0.25) 0%, rgba(251, 191, 36, 0.15) 100%);
+      border-color: rgba(251, 191, 36, 0.4);
+      box-shadow: 0 8px 24px rgba(251, 191, 36, 0.15);
+    }
+
+    .copy-btn.copied {
+      background: linear-gradient(135deg, rgba(74, 222, 128, 0.15) 0%, rgba(74, 222, 128, 0.08) 100%);
+      color: #4ade80;
+      border-color: rgba(74, 222, 128, 0.25);
+    }
+
+    .footer {
+      margin-top: 32px;
+      padding-top: 24px;
+      border-top: 1px solid var(--border-lighter);
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+
+    .footer p {
+      margin: 0;
+      font-weight: 400;
+      letter-spacing: -0.005em;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+
+    @media (max-width: 768px) {
+      body {
+        padding: 32px 16px;
+      }
+
+      .container {
+        max-width: 100%;
+        padding: 32px 20px;
+        gap: 48px;
+      }
+
+      .title {
+        font-size: clamp(2.2rem, 7vw, 3.2rem);
+      }
+
+      .subtitle {
+        font-size: 1rem;
+      }
+
+      .btn {
+        padding: 16px 24px;
+        font-size: 0.95rem;
+        border-radius: 10px;
+      }
+
+      .wallet-dropdown {
+        min-width: calc(100vw - 56px);
+        padding: 20px;
+      }
+
+      .wallet-address {
+        font-size: 0.8rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .container {
+        padding: 28px 16px;
+        gap: 40px;
+      }
+
+      .title {
+        font-size: 2rem;
+      }
+
+      .subtitle {
+        font-size: 0.95rem;
+      }
+
+      .btn {
+        padding: 14px 20px;
+        font-size: 0.9rem;
+        border-radius: 10px;
+      }
+
+      .cta-section {
+        gap: 12px;
+      }
+
+      .wallet-dropdown {
+        min-width: calc(100vw - 40px);
+        padding: 18px;
+      }
+
+      .wallet-address-container {
+        padding: 10px 12px;
+      }
+
+      .wallet-address {
+        font-size: 0.75rem;
+      }
+
+      .copy-btn {
+        padding: 10px 14px;
+        font-size: 0.85rem;
+      }
+
+      .footer {
+        font-size: 0.85rem;
+      }
+    }
+
+    @media print {
+      body {
+        background: white;
+        color: black;
+      }
+
+      .btn-primary {
+        color: var(--red-primary);
+        background: transparent;
+        box-shadow: none;
+        border: 2px solid var(--red-primary);
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header-section">
+      <h1 class="title">Hide Roblox Gamepass</h1>
+      <p class="subtitle">Instantly hide unwanted offsale gamepasses from your Roblox Creator Dashboard. Keep your workspace organized and distraction-free.</p>
+    </div>
+
+    <div class="cta-section">
+      <a href="Hide-Roblox-Offsale-Passes.zip" download class="btn btn-primary" aria-label="Download Hide Roblox Gamepass extension ZIP file">
+        <span>↓</span> Download Extension
+      </a>
+
+      <a href="https://www.roblox.com/users/8329425567/profile" target="_blank" rel="noopener noreferrer" class="btn btn-secondary btn-blue" aria-label="Visit creator's Roblox profile in new tab">
+        Follow Creator
+      </a>
+
+      <div class="donate-wrapper">
+        <button id="donateBtn" class="btn btn-secondary btn-yellow" aria-label="Donate Bitcoin, click to reveal wallet address" aria-expanded="false">
+          ₿ Donate Bitcoin
+        </button>
+        <div id="walletDropdown" class="wallet-dropdown">
+          <div class="wallet-label">Bitcoin Address</div>
+          <div class="wallet-address-container">
+            <span class="wallet-address" id="walletAddress">1F1tF4Wmi2NZ5uctR4pGzcEv3yYZwADPW7</span>
+            <span class="copy-icon" id="copyIcon" title="Copy address">📋</span>
+          </div>
+          <button class="copy-btn" id="copyBtn">
+            Copy Address
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer">
+      <p>© 2026 Hide Roblox Gamepass. Secure, professional, and lightweight.</p>
+    </div>
+  </div>
+
+  <script>
+    const donateBtn = document.getElementById('donateBtn');
+    const walletDropdown = document.getElementById('walletDropdown');
+    const copyBtn = document.getElementById('copyBtn');
+    const copyIcon = document.getElementById('copyIcon');
+    const walletAddress = document.getElementById('walletAddress');
+
+    donateBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      walletDropdown.classList.toggle('show');
+      donateBtn.setAttribute('aria-expanded', walletDropdown.classList.contains('show'));
+    });
+
+    const copyAddress = () => {
+      const address = walletAddress.textContent;
+      navigator.clipboard.writeText(address).then(() => {
+        const originalText = copyBtn.textContent;
+        const originalIcon = copyIcon.textContent;
+        copyBtn.textContent = '✓ Copied!';
+        copyBtn.classList.add('copied');
+        copyIcon.textContent = '✓';
+        
+        setTimeout(() => {
+          copyBtn.textContent = originalText;
+          copyBtn.classList.remove('copied');
+          copyIcon.textContent = originalIcon;
+        }, 2500);
+      });
+    };
+
+    copyBtn.addEventListener('click', copyAddress);
+    copyIcon.addEventListener('click', (e) => {
+      e.stopPropagation();
+      copyAddress();
+    });
+
+    document.addEventListener('click', (e) => {
+      if (!e.target.closest('.donate-wrapper')) {
+        walletDropdown.classList.remove('show');
+        donateBtn.setAttribute('aria-expanded', 'false');
+      }
+    });
+
+    donateBtn.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        donateBtn.click();
+      }
+    });
+  </script>
+</body>
+</html>
